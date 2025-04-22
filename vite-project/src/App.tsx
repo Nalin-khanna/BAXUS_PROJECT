@@ -13,8 +13,11 @@ interface ComparisonResult {
     price: number;
     imageUrl: string;
     attributes?: Record<string, string>;
-  } | null;
+    iD?: string;
+    nftAddress?: string;
+  } | "no matches found";  
   savings: number;
+  error?: boolean; 
 }
 
 function App() {
@@ -39,55 +42,125 @@ function App() {
     });
   }, []);
 
+  // Find if there are any matches with savings
+  const hasMatches = results.some(result => 
+    result.baxusMatch && 
+    result.baxusMatch !== "no matches found" &&
+    result.savings > 0
+  );
+
   return (
     <div className="app-container">
-      <h1>The Honey Barrel</h1>
-      <p className="last-updated">
-        Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}
-      </p>
+      <header className="header">
+        <div className="logo-container">
+          <h1>The Honey Barrel</h1>
+          <span className="tagline">Bourbon Price Comparison</span>
+        </div>
+        <p className="last-updated">
+          Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}
+        </p>
+      </header>
       
       <div className="results-container">
         {results.length === 0 ? (
-          <p>No products scanned yet. Visit a supported retailer to see comparisons.</p>
+          <div className="empty-state">
+            <div className="icon">🥃</div>
+            <p>No products scanned yet</p>
+            <p className="help-text">Visit a supported retailer to see bourbon comparisons</p>
+          </div>
+        ) : !hasMatches ? (
+          <div className="no-match-container">
+            <div className="icon">🔍</div>
+            <p>No better prices found in BAXUS database</p>
+            <p className="help-text">Try scanning another product</p>
+          </div>
         ) : (
-          results.map((result, index) => (
-            <div key={index} className={`product-card ${result.savings > 0 ? 'has-savings' : ''}`}>
-              <div className="product-info">
-                <h3>{result.original.name}</h3>
-                <p className="retailer">From: {result.original.retailer}</p>
-                <p className="price">Price: ${result.original.price.toFixed(2)}</p>
-                
-                {result.baxusMatch && (
-                  <div className="baxus-comparison">
-                    <h4>BAXUS Comparison</h4>
-                    <p>Price: ${result.baxusMatch.price.toFixed(2)}</p>
-                    {result.savings > 0 && (
-                      <p className="savings">Potential Savings: ${result.savings.toFixed(2)}</p>
-                    )}
-                    {result.baxusMatch.attributes && (
-                      <div className="attributes">
-                        {Object.entries(result.baxusMatch.attributes)
-                          .filter(([key]) => !['Name', 'Blurhash'].includes(key))
-                          .map(([key, value]) => (
-                            <p key={key}><strong>{key}:</strong> {value}</p>
-                          ))}
+          <div className="products-grid">
+            {results.map((result, index) => {
+              // Only render products that have matches AND savings
+              if (result.baxusMatch && 
+                  result.baxusMatch !== "no matches found" && 
+                  result.savings > 0) {
+                return (
+                  <div key={index} className="product-card has-savings">
+                    <div className="card-header">
+                      <h3 className="product-title">{result.original.name}</h3>
+                      <span className="retailer-badge">{result.original.retailer}</span>
+                    </div>
+                    
+                    <div className="card-content">
+                      <div className="price-comparison">
+                        <div className="price-box original">
+                          <div className="price-label">Retail Price</div>
+                          <div className="price-value">${result.original.price.toFixed(2)}</div>
+                        </div>
+                        
+                        <div className="price-box baxus">
+                          <div className="price-label">BAXUS Price</div>
+                          <div className="price-value">${result.baxusMatch.price.toFixed(2)}</div>
+                        </div>
                       </div>
-                    )}
+                      
+                      {result.savings > 0 && (
+                        <div className="savings-highlight">
+                          <div className="savings-icon">💰</div>
+                          <div className="savings-text">
+                            <span>Potential Savings</span>
+                            <strong>${result.savings.toFixed(2)}</strong>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="product-details">
+                      {result.baxusMatch.imageUrl && (
+                        <div className="image-container">
+                          <img 
+                            src={result.baxusMatch.imageUrl} 
+                            alt={result.original.name}
+                            className="product-image"
+                          />
+                        </div>
+                      )}
+                      
+                      <div className="attributes-container">
+                        {result.baxusMatch.attributes && (
+                          <div className="attributes">
+                            <h4>Details</h4>
+                            <ul className="attributes-list">
+                              {Object.entries(result.baxusMatch.attributes)
+                                .filter(([key]) => !['Name', 'Blurhash'].includes(key))
+                                .map(([key, value]) => (
+                                  <li key={key}><span className="attribute-key">{key}:</span> {value}</li>
+                                ))}
+                            </ul>
+                          </div>
+                        )}
+                        
+                        {result.baxusMatch.iD && (
+                          <a 
+                            href={`https://www.baxus.co/asset/${result.baxusMatch.iD}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="baxus-link"
+                          >
+                            View on BAXUS
+                          </a>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                )}
-              </div>
-              
-              {result.baxusMatch?.imageUrl && (
-                <img 
-                  src={result.baxusMatch.imageUrl} 
-                  alt={result.original.name}
-                  className="product-image"
-                />
-              )}
-            </div>
-          ))
+                );
+              }
+              return null;
+            })}
+          </div>
         )}
       </div>
+      
+      <footer className="footer">
+        <p>© The Honey Barrel - Bourbon Price Comparison</p>
+      </footer>
     </div>
   );
 }

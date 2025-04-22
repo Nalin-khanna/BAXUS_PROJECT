@@ -57,5 +57,41 @@ export const siteConfigs: SiteConfig[] = [
       sku: '.card-text.sku',
       rating: '.rating--small'
     }
+  },
+  {
+    name: 'Old Town Tequila',
+    domainMatch: 'oldtowntequila.com',
+    productSelector: 'li.product',
+    nameSelector: '.card-title a',
+    priceSelector: 'span.price.price--withoutTax.price--main',
+    linkSelector: '.card-title a',
+    imageSelector: '.card-image img',
+    listingContainerSelector: '.productGrid',
+    listingUrlPatterns: [
+      /\/[^\/]+\/?(?:\?.*)?$/
+    ],
+    additionalSelectors: {
+      brand: '.card-text--brand',
+      description: '.card-text--summary',
+      volume: '.card-title'
+    }
+  },
+  {
+    name: 'PB Express Liquor',
+    domainMatch: 'pbexpressliquor.com',
+    productSelector: '.product.js-product',
+    nameSelector: '.product__title',
+    priceSelector: '.product__price-price .money',
+    linkSelector: 'a.product-link',
+    imageSelector: '.product__img.lazyloaded',
+    listingContainerSelector: '.collection__products',
+    listingUrlPatterns: [
+      /\/(products|collections|search).*(?:\?.*)?$/ // Updated pattern to handle query parameters
+    ],
+    additionalSelectors: {
+      brand: '.product__vendor',
+      description: '.product__description',
+      volume: '.product__title'
+    }
   }
 ];

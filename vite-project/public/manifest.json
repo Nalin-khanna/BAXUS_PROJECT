@@ -11,7 +11,11 @@
         "*://*.wine.com/*",
         "*://*.whiskyshopusa.com/*",
         "*://*.reservebar.com/*",
-        "*://*.thewhiskyexchange.com/*"
+        "*://*.whiskeyid.com/*",
+        "*://*.thewhiskyexchange.com/*",
+        "*://*.oldtowntequila.com/*",
+        "https://services.baxus.co/*",
+        "*://*.pbexpressliquor.com/*"
     ],
     "content_scripts": [
     {
@@ -20,7 +24,10 @@
         "*://*.wine.com/*",
         "*://*.whiskyshopusa.com/*",
         "*://*.reservebar.com/*",
-        "*://*.thewhiskyexchange.com/*"
+        "*://*.thewhiskyexchange.com/*",
+        "*://*.whiskeyid.com/*",
+        "*://*.oldtowntequila.com/*",
+        "*://*.pbexpressliquor.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"
