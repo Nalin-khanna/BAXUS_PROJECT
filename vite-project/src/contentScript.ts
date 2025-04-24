@@ -13,7 +13,7 @@ function detectAndProcessPage() {
     return;
   }
   
-  console.log(`BAXUS extension: Detected ${siteConfig.name}`);
+ 
   
   // 2. Check if we're on a product listing page
   if (isProductListingPage(siteConfig)) {
@@ -21,8 +21,6 @@ function detectAndProcessPage() {
     const products = extractProductsFromPage(siteConfig);
     
     if (products.length > 0) {
-      console.log(`BAXUS extension: Found ${products.length} products`);
-      
       // Send to background script 
       chrome.runtime.sendMessage({
         action: 'compareProducts',
@@ -32,7 +30,7 @@ function detectAndProcessPage() {
   }
 }
 
-// Helper function to get site configuration
+
 function getSiteConfigForDomain(domain: string): SiteConfig | null {
   const cleanDomain = domain.replace(/^www\./, '');
   return siteConfigs.find(config => 
@@ -42,23 +40,18 @@ function getSiteConfigForDomain(domain: string): SiteConfig | null {
 
 // Check if current page is a product listing page based on URL patterns or page elements
 function isProductListingPage(config: SiteConfig): boolean {
-  console.log('BAXUS: Checking URL patterns:', config.listingUrlPatterns);
-  console.log('BAXUS: Current pathname:', window.location.pathname);
   
   // Check URL patterns
   if (config.listingUrlPatterns && config.listingUrlPatterns.some(pattern => {
     const matches = window.location.pathname.match(pattern);
-    console.log('BAXUS: URL pattern match result:', pattern, matches);
     return matches;
   })) {
     return true;
   }
   
   // Check for presence of listing elements
-  console.log('BAXUS: Checking listing container selector:', config.listingContainerSelector);
   const listingContainer = config.listingContainerSelector ? 
     document.querySelector(config.listingContainerSelector) : null;
-  console.log('BAXUS: Found listing container:', listingContainer);
   
   if (listingContainer) {
     return true;
@@ -69,9 +62,7 @@ function isProductListingPage(config: SiteConfig): boolean {
 
 // Extract product data from the page
 function extractProductsFromPage(config: SiteConfig): ProductData[] {
-  const products: ProductData[] = [];
-  console.log('BAXUS: Using product selector:', config.productSelector);
-  
+  const products: ProductData[] = []; 
   const productElements = document.querySelectorAll(config.productSelector);
   console.log('BAXUS: Found product elements:', productElements.length);
   
@@ -152,7 +143,7 @@ function extractProductData(element: Element, config: SiteConfig): ProductData {
     }
   }
   
-  // Extract additional attributes if defined in config
+  // Extract additional attributes
   if (config.additionalSelectors) {
     product.additionalData = {};
     
@@ -169,10 +160,10 @@ function extractProductData(element: Element, config: SiteConfig): ProductData {
 
 // Extract numeric price from text
 function extractPriceValue(priceText: string): number {
-  // Remove currency symbols and extract numeric value
+ 
   const priceMatch = priceText.match(/[\d,]+\.?\d*/);
   if (priceMatch) {
-    // Convert to number, remove commas
+    // remove commas 
     return parseFloat(priceMatch[0].replace(/,/g, ''));
   }
   return 0;

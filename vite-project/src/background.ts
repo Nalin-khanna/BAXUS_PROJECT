@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener((request, sender) => {
   if (request.action === 'compareProducts' && request.products) {
     compareWithBaxusAPI(request.products)
       .then(results => {
-        // Store the results
+        // Store the result
         chrome.storage.local.set({ 
           comparisonResults: results,
           lastUpdated: new Date().toISOString()
@@ -37,19 +37,19 @@ chrome.runtime.onMessage.addListener((request, sender) => {
 // Function to compare with BAXUS API
 async function compareWithBaxusAPI(products: ProductData[]) {
   try {
-    const response = await fetch('https://services.baxus.co/api/search/listings?from=0&size=20&listed=true', {
+    const response = await fetch('https://services.baxus.co/api/search/listings?from=0&size=3000&listed=true', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       }
     });
-    
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
     
     const baxusData = await response.json();
+   
     
     // Match and calculate savings
     return products.map(product => {
@@ -76,10 +76,10 @@ async function compareWithBaxusAPI(products: ProductData[]) {
       };
     });
   } catch (error) {
-    console.error('API error:', error);
+    
     return products.map(product => ({
       original: product,
-      baxusMatch: "no matches found", 
+      baxusMatch: "API error", 
       savings: 0,
       error: true
     }));
@@ -116,9 +116,11 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
       baseAttributesName.includes(baseProductName) ||
       baseProductName.includes(baseAttributesName);
     
-    // Flexible volume matching: Only enforce match if both volumes are known.
+    
     const volumesAreComparable = normalizedProductVolume !== null && normalizedMatchVolume !== null;
-    const volumeMatches = volumesAreComparable ? (normalizedProductVolume === normalizedMatchVolume) : true;
+    const volumeMatches = volumesAreComparable
+      ? (normalizedProductVolume === normalizedMatchVolume)
+      : false; 
     
     return nameMatches && volumeMatches;
   });
