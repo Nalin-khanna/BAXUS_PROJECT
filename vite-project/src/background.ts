@@ -114,8 +114,7 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
       baseSourceName.includes(baseProductName) || 
       baseProductName.includes(baseSourceName) ||
       baseAttributesName.includes(baseProductName) ||
-      baseProductName.includes(baseAttributesName) 
-     
+      baseProductName.includes(baseAttributesName);
     
     // Volume matching is always required when volumes are present
     const volumeMatches = !normalizedProductVolume || !normalizedMatchVolume || 

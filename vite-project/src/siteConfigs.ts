@@ -86,7 +86,7 @@ export const siteConfigs: SiteConfig[] = [
     imageSelector: '.product__img.lazyloaded',
     listingContainerSelector: '.collection__products',
     listingUrlPatterns: [
-      /\/(products|collections|search).*(?:\?.*)?$/ // Updated pattern to handle query parameters
+      /\/(products|collections|search).*(?:\?.*)?$/ 
     ],
     additionalSelectors: {
       brand: '.product__vendor',

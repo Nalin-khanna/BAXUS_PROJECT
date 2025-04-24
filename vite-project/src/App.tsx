@@ -13,11 +13,11 @@ interface ComparisonResult {
     price: number;
     imageUrl: string;
     attributes?: Record<string, string>;
-    iD?: string;
+    iD?: string; // Ensure this matches the case used in background.ts
     nftAddress?: string;
-  } | "no matches found";  
+  } | "no matches found";
   savings: number;
-  error?: boolean; 
+  error?: boolean;
 }
 
 function App() {
@@ -25,16 +25,16 @@ function App() {
   const [lastUpdated, setLastUpdated] = useState<string>('');
 
   useEffect(() => {
-    // Load results from storage
     chrome.storage.local.get(['comparisonResults', 'lastUpdated'], (data) => {
+      console.log('Retrieved from storage:', data);
       if (data.comparisonResults) {
         setResults(data.comparisonResults);
         setLastUpdated(data.lastUpdated);
       }
     });
 
-    // Listen for updates
     chrome.storage.onChanged.addListener((changes) => {
+      console.log('Storage changes:', changes);
       if (changes.comparisonResults) {
         setResults(changes.comparisonResults.newValue);
         setLastUpdated(changes.lastUpdated?.newValue || '');
@@ -42,9 +42,13 @@ function App() {
     });
   }, []);
 
-  // Find if there are any matches with savings
-  const hasMatches = results.some(result => 
-    result.baxusMatch && 
+  // Check for errors first
+  const hasError = results.some(result => result.error === true);
+
+  // Find if there are any matches with savings, excluding errors
+  const hasMatches = results.some(result =>
+    !result.error && // Ensure we don't count errored results as matches
+    result.baxusMatch &&
     result.baxusMatch !== "no matches found" &&
     result.savings > 0
   );
@@ -68,6 +72,12 @@ function App() {
             <p>No products scanned yet</p>
             <p className="help-text">Visit a supported retailer to see bourbon comparisons</p>
           </div>
+        ) : hasError ? ( // Check for error state first
+          <div className="error-container">
+            <div className="icon">⚠️</div>
+            <p>Error fetching comparison data</p>
+            <p className="help-text">Could not connect to BAXUS API. Please try again later.</p>
+          </div>
         ) : !hasMatches ? (
           <div className="no-match-container">
             <div className="icon">🔍</div>
@@ -77,10 +87,14 @@ function App() {
         ) : (
           <div className="products-grid">
             {results.map((result, index) => {
-              // Only render products that have matches AND savings
-              if (result.baxusMatch && 
-                  result.baxusMatch !== "no matches found" && 
+              // Only render products that have matches AND savings AND no error
+              if (!result.error && // Add error check here too
+                  result.baxusMatch &&
+                  result.baxusMatch !== "no matches found" &&
                   result.savings > 0) {
+                // Type guard to ensure baxusMatch is not "no matches found"
+                if (typeof result.baxusMatch === 'string') return null;
+
                 return (
                   <div key={index} className="product-card has-savings">
                     <div className="card-header">
@@ -137,8 +151,9 @@ function App() {
                           </div>
                         )}
                         
+                        {/* Ensure correct property name 'iD' is used */}
                         {result.baxusMatch.iD && (
-                          <a 
+                          <a
                             href={`https://www.baxus.co/asset/${result.baxusMatch.iD}`}
                             target="_blank"
                             rel="noopener noreferrer"

@@ -2,9 +2,9 @@
 import { SiteConfig, ProductData } from './types';
 import { siteConfigs } from './siteConfigs';
 
-// Main function to run when content script loads
+
 function detectAndProcessPage() {
-  // 1. Page Detection
+  // Page Detection
   const currentDomain = window.location.hostname;
   const siteConfig = getSiteConfigForDomain(currentDomain);
   
@@ -17,13 +17,13 @@ function detectAndProcessPage() {
   
   // 2. Check if we're on a product listing page
   if (isProductListingPage(siteConfig)) {
-    // 3. Content Parsing & Batch Processing
+   
     const products = extractProductsFromPage(siteConfig);
     
     if (products.length > 0) {
       console.log(`BAXUS extension: Found ${products.length} products`);
       
-      // Send to background script for API comparison
+      // Send to background script 
       chrome.runtime.sendMessage({
         action: 'compareProducts',
         products: products
@@ -210,7 +210,7 @@ setTimeout(() => {
   });
 }, 2000);
 
-// Add this to the global window object for TypeScript
+
 declare global {
   interface Window {
     BAXUS_OBSERVER_TIMEOUT?: number;
