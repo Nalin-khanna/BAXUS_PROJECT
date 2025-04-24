@@ -76,6 +76,7 @@ export const siteConfigs: SiteConfig[] = [
       volume: '.card-title'
     }
   },
+  
   {
     name: 'PB Express Liquor',
     domainMatch: 'pbexpressliquor.com',
@@ -92,6 +93,24 @@ export const siteConfigs: SiteConfig[] = [
       brand: '.product__vendor',
       description: '.product__description',
       volume: '.product__title'
+    }
+  },
+  {
+    name: 'Flask Fine Wines',
+    domainMatch: 'flaskfinewines.com',
+    productSelector: 'product-grid-item',
+    nameSelector: '.grid-product__title',
+    priceSelector: '.grid-product__price--current',
+    linkSelector: '.grid-item__link',
+    imageSelector: '.grid-product__image-wrap img',
+    listingContainerSelector: '.grid',
+    listingUrlPatterns: [
+      /\/collections\//,
+      /\/products\//,
+      /\/search\?/
+    ],
+    additionalSelectors: {
+      
     }
   }
 ];

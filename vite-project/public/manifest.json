@@ -14,6 +14,7 @@
         "*://*.whiskeyid.com/*",
         "*://*.thewhiskyexchange.com/*",
         "*://*.oldtowntequila.com/*",
+        "*://*.flaskfinewines.com/*",
         "https://services.baxus.co/*",
         "*://*.pbexpressliquor.com/*"
     ],
@@ -27,6 +28,7 @@
         "*://*.thewhiskyexchange.com/*",
         "*://*.whiskeyid.com/*",
         "*://*.oldtowntequila.com/*",
+        "*://*.flaskfinewines.com/*",
         "*://*.pbexpressliquor.com/*"
       ],
       "js": ["content-script.js"],
