@@ -79,7 +79,7 @@ async function compareWithBaxusAPI(products: ProductData[]) {
     console.error('API error:', error);
     return products.map(product => ({
       original: product,
-      baxusMatch: "no matches found", // Changed from null to "no matches found"
+      baxusMatch: "no matches found", 
       savings: 0,
       error: true
     }));
@@ -104,21 +104,21 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
     const matchVolume = match._source.attributes?.Size?.match(/(\d+)\s*(ml|cl)/i);
     
     // Convert volumes to ml for comparison (if in cl)
-    const normalizedProductVolume = productVolume ? 
+    const normalizedProductVolume = productVolume ?
       (productVolume[2].toLowerCase() === 'cl' ? parseInt(productVolume[1]) * 10 : parseInt(productVolume[1])) : null;
-    const normalizedMatchVolume = matchVolume ? 
+    const normalizedMatchVolume = matchVolume ?
       (matchVolume[2].toLowerCase() === 'cl' ? parseInt(matchVolume[1]) * 10 : parseInt(matchVolume[1])) : null;
     
     // More flexible name matching
-    const nameMatches = 
-      baseSourceName.includes(baseProductName) || 
+    const nameMatches =
+      baseSourceName.includes(baseProductName) ||
       baseProductName.includes(baseSourceName) ||
       baseAttributesName.includes(baseProductName) ||
       baseProductName.includes(baseAttributesName);
     
-    // Volume matching is always required when volumes are present
-    const volumeMatches = !normalizedProductVolume || !normalizedMatchVolume || 
-                         normalizedProductVolume === normalizedMatchVolume;
+    // Flexible volume matching: Only enforce match if both volumes are known.
+    const volumesAreComparable = normalizedProductVolume !== null && normalizedMatchVolume !== null;
+    const volumeMatches = volumesAreComparable ? (normalizedProductVolume === normalizedMatchVolume) : true;
     
     return nameMatches && volumeMatches;
   });
