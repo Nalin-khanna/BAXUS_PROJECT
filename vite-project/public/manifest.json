@@ -18,7 +18,8 @@
         "https://services.baxus.co/*",
         "*://*.pbexpressliquor.com/*",
         "*://*.thewhiskeyvault.com/*",
-        "*://*.bankswinesandspirits.com/*"
+        "*://*.bankswinesandspirits.com/*",
+        "*://*.caskers.com/*"
     ],
     "content_scripts": [
     {
@@ -33,7 +34,8 @@
         "*://*.flaskfinewines.com/*",
         "*://*.pbexpressliquor.com/*",
         "*://*.thewhiskeyvault.com/*",
-        "*://*.bankswinesandspirits.com/*"
+        "*://*.bankswinesandspirits.com/*",
+        "*://*.caskers.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"

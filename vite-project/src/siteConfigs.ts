@@ -155,5 +155,27 @@ export const siteConfigs: SiteConfig[] = [
     additionalSelectors: {
       // Add more if needed, e.g. brand, description, volume
     }
+  },
+  {
+    name: 'Caskers',
+    domainMatch: 'caskers.com',
+    productSelector: '.product-item-info', 
+    nameSelector: '.product-item-link',
+    priceSelector: '.price',
+    linkSelector: '.product-item-link',
+    imageSelector: '.product-image-photo',
+    volumeSelector: '.product-item-size',
+    listingContainerSelector: '.products-grid, .products.wrapper',
+    listingUrlPatterns: [
+      /caskers\.com\/spirits\//,
+      /caskers\.com\/wine\//,
+      /caskers\.com\/beer\//,
+      /caskers\.com\/[a-z0-9\-]+\/?/,
+      /caskers\.com\/search\?/,
+      /caskers\.com\//
+    ],
+    additionalSelectors: {
+      // Add more if needed, e.g. brand, description, rating
+    }
   }
 ];

@@ -94,12 +94,10 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
     const sourceName = (match._source.name || '').toLowerCase().trim().replace(/\s+/g, ' ');
     const attributesName = (match._source.attributes?.Name || '').toLowerCase().trim().replace(/\s+/g, ' ');
     
-  
     const baseProductName = normalizedProductName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
     const baseSourceName = sourceName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
     const baseAttributesName = attributesName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
     
-   
     const productVolume = normalizedProductName.match(/(\d+)\s*(ml|cl)/i);
     const matchVolume = match._source.attributes?.Size?.match(/(\d+)\s*(ml|cl)/i);
     
@@ -115,8 +113,11 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
       baseProductName.includes(baseSourceName) ||
       baseAttributesName.includes(baseProductName) ||
       baseProductName.includes(baseAttributesName);
-    
-    
+
+    // If no volume on the site, match if names match
+    if (normalizedProductVolume === null) {
+      return nameMatches;
+    }
     const volumesAreComparable = normalizedProductVolume !== null && normalizedMatchVolume !== null;
     const volumeMatches = volumesAreComparable
       ? (normalizedProductVolume === normalizedMatchVolume)
