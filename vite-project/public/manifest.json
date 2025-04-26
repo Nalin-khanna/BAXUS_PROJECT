@@ -16,7 +16,9 @@
         "*://*.oldtowntequila.com/*",
         "*://*.flaskfinewines.com/*",
         "https://services.baxus.co/*",
-        "*://*.pbexpressliquor.com/*"
+        "*://*.pbexpressliquor.com/*",
+        "*://*.thewhiskeyvault.com/*",
+        "*://*.bankswinesandspirits.com/*"
     ],
     "content_scripts": [
     {
@@ -29,7 +31,9 @@
         "*://*.whiskeyid.com/*",
         "*://*.oldtowntequila.com/*",
         "*://*.flaskfinewines.com/*",
-        "*://*.pbexpressliquor.com/*"
+        "*://*.pbexpressliquor.com/*",
+        "*://*.thewhiskeyvault.com/*",
+        "*://*.bankswinesandspirits.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"

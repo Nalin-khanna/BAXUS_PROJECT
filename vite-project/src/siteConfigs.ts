@@ -20,13 +20,18 @@ export const siteConfigs: SiteConfig[] = [
   {
     name: 'Total Wine',
     domainMatch: 'totalwine.com',
-    productSelector: '.product-card',
-    nameSelector: '.product-title',
-    priceSelector: '.price-value',
-    linkSelector: 'a.product-link',
-    imageSelector: 'img.product-image',
-    listingContainerSelector: '.product-grid',
-    listingUrlPatterns: [/\/wine\//, /\/spirits\//]
+    productSelector: 'article.productCard__b06a1de0',
+    nameSelector: '.title__ef560716 a',
+    priceSelector: '.price__7705420f',
+    linkSelector: '.title__ef560716 a',
+    imageSelector: '.ProductImagestyled__Img-shared-packages__x66sdz-1',
+    listingContainerSelector: '.product-grid', 
+    listingUrlPatterns: [
+      /\/wine\//, /\/spirits\//,  /\/beer\//,  /\/search\//,  /\/shop\//, /\/c\//, /\/p\//,  /\/product\//,
+      /\/category\//,
+      /\/browse\//,
+      /totalwine\.com\/.*/
+    ]
   },
   {
     name: 'Whisky Shop USA',
@@ -50,7 +55,7 @@ export const siteConfigs: SiteConfig[] = [
       /\/single-grain-scotch\//,
       /\/single-malt-scotch\//,
       /\/large-bottles\//,
-      /\/search\.php\?.*section=product/  // Add this pattern for search results
+      /\/search\.php\?.*section=product/  
     ],
     additionalSelectors: {
       brand: '.card-text.brand a.brand-link',
@@ -111,6 +116,44 @@ export const siteConfigs: SiteConfig[] = [
     ],
     additionalSelectors: {
       
+    }
+  },
+  {
+    name: 'The Whisky Vault',
+    domainMatch: 'thewhiskyvault.com',
+    productSelector: '.aerial-product-item',
+    nameSelector: '.product-name a',
+    priceSelector: '.aerial-product-item_price',
+    linkSelector: '.product-name a',
+    imageSelector: '.aerial-product-item_header img',
+    listingContainerSelector: '.productlist', 
+    listingUrlPatterns: [
+      /thewhiskyvault\.com\/.*-c\.asp$/,   
+      /thewhiskyvault\.com\/.*-p\.asp$/,   
+      /thewhiskyvault\.com\/search\.asp/,  
+      /thewhiskyvault\.com\//              
+    ],
+    additionalSelectors: {
+      
+    }
+  },
+  {
+    name: 'Banks Wines & Spirits',
+    domainMatch: 'bankswinesandspirits.com',
+    productSelector: '.product-card__details',
+    nameSelector: '.product-card__title',
+    priceSelector: '.product-card__price .money',
+    linkSelector: '.product-card__title a', // Adjust if product name is not a link
+    imageSelector: '.product-card__image img', // Adjust based on actual HTML
+    listingContainerSelector: '.product-grid, .collection', // Adjust based on actual HTML
+    listingUrlPatterns: [
+      /bankswinesandspirits\.com\/collections\//,
+      /bankswinesandspirits\.com\/products\//,
+      /bankswinesandspirits\.com\/search\?/,
+      /bankswinesandspirits\.com\//
+    ],
+    additionalSelectors: {
+      // Add more if needed, e.g. brand, description, volume
     }
   }
 ];
