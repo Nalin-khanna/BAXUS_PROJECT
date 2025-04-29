@@ -58,7 +58,7 @@ function App() {
       <header className="header">
         <div className="logo-container">
           <h1>The Honey Barrel</h1>
-          <span className="tagline">Bourbon Price Comparison</span>
+          <span className="tagline">Liquor Price Comparison</span>
         </div>
         <p className="last-updated">
           Last updated: {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Never'}
@@ -174,7 +174,7 @@ function App() {
       </div>
       
       <footer className="footer">
-        <p>© The Honey Barrel - Bourbon Price Comparison</p>
+        <p>© The Honey Barrel - Liquor Price Comparison</p>
       </footer>
     </div>
   );

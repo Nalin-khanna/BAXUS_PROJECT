@@ -19,7 +19,8 @@
         "*://*.pbexpressliquor.com/*",
         "*://*.thewhiskeyvault.com/*",
         "*://*.bankswinesandspirits.com/*",
-        "*://*.caskers.com/*"
+        "*://*.caskers.com/*",
+        "*://*.woodencork.com/*"
     ],
     "content_scripts": [
     {
@@ -35,7 +36,8 @@
         "*://*.pbexpressliquor.com/*",
         "*://*.thewhiskeyvault.com/*",
         "*://*.bankswinesandspirits.com/*",
-        "*://*.caskers.com/*"
+        "*://*.caskers.com/*",
+        "*://*.woodencork.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"
@@ -43,5 +45,11 @@
   ],
   "background": {
     "service_worker": "background.js"
+  },
+  "icons": {
+      "16": "image.png",
+      "32": "image.png",
+      "48": "image.png",
+      "128": "image.png"
   }
 }

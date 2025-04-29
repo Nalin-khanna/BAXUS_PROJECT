@@ -177,5 +177,24 @@ export const siteConfigs: SiteConfig[] = [
     additionalSelectors: {
       // Add more if needed, e.g. brand, description, rating
     }
+  },
+  {
+    name: "Wooden Cork",
+    domainMatch: "woodencork.com",
+    productSelector: ".product-grid-item",
+    nameSelector: ".grid-product__title",
+    priceSelector: ".grid-product__price--current .visually-hidden",
+    linkSelector: ".grid-item__link",
+    imageSelector: ".grid-product__image-wrap img",
+    listingContainerSelector: ".product-grid",
+    listingUrlPatterns: [
+      /woodencork\.com\/collections\//,
+      /woodencork\.com\/products\//,
+      /woodencork\.com\/search\?/,
+      /woodencork\.com\//
+    ],
+    additionalSelectors: {
+      brand: ".grid-product__vendor"
+    }
   }
 ];
