@@ -1,8 +1,3 @@
-# 🔌 React + Vite Chrome Extension
-
-This is a Chrome extension built using **React** and **Vite** — designed for fast development and optimized builds.
-
----
 
 ## 🚀 Getting Started
 
@@ -11,7 +6,7 @@ Follow these steps to run and use the extension locally:
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/Nalin-khanna/BAXUS_PROJECT.git
 cd project
 
 npm install
