@@ -196,5 +196,25 @@ export const siteConfigs: SiteConfig[] = [
     additionalSelectors: {
       brand: ".grid-product__vendor"
     }
+  },
+ 
+  {
+    name: "Wine-Searcher Discover",
+    domainMatch: "wine-searcher.com",
+    productSelector: ".card",
+    nameSelector: ".flip-card-front .product-info a",
+    priceSelector: ".price__detail_main",
+    linkSelector: ".flip-card-front .product-info a",
+    imageSelector: ".img-container img",
+    listingContainerSelector: ".discover-results, .ws-discover__results",
+    listingUrlPatterns: [
+      /wine-searcher\.com\/discover\?/
+    ],
+    additionalSelectors: {
+      region: ".discover-card-info-text", // e.g., Oaxaca, Mexico
+      merchant: ".store-name",
+      volume: ".badge-bottle"
+    }
   }
+
 ];

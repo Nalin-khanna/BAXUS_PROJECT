@@ -20,7 +20,8 @@
         "*://*.thewhiskeyvault.com/*",
         "*://*.bankswinesandspirits.com/*",
         "*://*.caskers.com/*",
-        "*://*.woodencork.com/*"
+        "*://*.woodencork.com/*",
+        "*://*.wine-searcher.com/*"
     ],
     "content_scripts": [
     {
@@ -37,7 +38,8 @@
         "*://*.thewhiskeyvault.com/*",
         "*://*.bankswinesandspirits.com/*",
         "*://*.caskers.com/*",
-        "*://*.woodencork.com/*"
+        "*://*.woodencork.com/*",
+        "*://*.wine-searcher.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"

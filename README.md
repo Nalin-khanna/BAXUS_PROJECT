@@ -12,7 +12,7 @@ Follow these steps to run and use the extension locally:
 
 ```bash
 git clone https://github.com/your-username/your-repo-name.git
-cd vite-project
+cd project
 
 npm install
 ### Build the extension
