@@ -1,5 +1,6 @@
 // src/background.ts
 import { ProductData } from './types';
+import { set, get } from 'idb-keyval';
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((request, sender) => {
@@ -30,27 +31,38 @@ chrome.runtime.onMessage.addListener((request, sender) => {
       });
   }
   
-  // Must return true if response is async
   return true;
 });
 
 // Function to compare with BAXUS API
 async function compareWithBaxusAPI(products: ProductData[]) {
+  const CACHE_KEY = 'baxusApiCache';
+  const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
   try {
-    const response = await fetch('https://services.baxus.co/api/search/listings?from=0&size=3000&listed=true', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    // Try to get cached data
+    const cached = await get(CACHE_KEY);
+    const now = Date.now();
+
+    let baxusData;
+    if (cached && cached.data && (now - cached.timestamp < CACHE_TTL)) {
+      baxusData = cached.data;
+    } else {
+      const response = await fetch('https://services.baxus.co/api/search/listings?from=0&size=3000&listed=true', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
       }
-    });
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      baxusData = await response.json();
+      // Store in IndexedDB
+      await set(CACHE_KEY, { data: baxusData, timestamp: now });
     }
-    
-    const baxusData = await response.json();
-   
-    
+
     // Match and calculate savings
     return products.map(product => {
       const match = findBestMatch(product, baxusData);
@@ -63,8 +75,8 @@ async function compareWithBaxusAPI(products: ProductData[]) {
             price: match._source.price,
             imageUrl: match._source.imageUrl,
             attributes: match._source.attributes,
-            iD: match._id  ,
-            nftAddress : match._source.nftAddress
+            iD: match._id,
+            nftAddress: match._source.nftAddress
           },
           savings: savings > 0 ? savings : 0
         };
@@ -76,10 +88,9 @@ async function compareWithBaxusAPI(products: ProductData[]) {
       };
     });
   } catch (error) {
-    
     return products.map(product => ({
       original: product,
-      baxusMatch: "API error", 
+      baxusMatch: "API error",
       savings: 0,
       error: true
     }));
