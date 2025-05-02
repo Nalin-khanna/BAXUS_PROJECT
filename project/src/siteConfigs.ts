@@ -144,7 +144,7 @@ export const siteConfigs: SiteConfig[] = [
     domainMatch: 'bankswinesandspirits.com',
     productSelector: '.product-card__details',
     nameSelector: '.product-card__title',
-    priceSelector: '.product-card__price .money',
+    priceSelector: '.product-card__price-price .money',
     linkSelector: '.product-card__title a', // Adjust if product name is not a link
     imageSelector: '.product-card__image img', // Adjust based on actual HTML
     listingContainerSelector: '.product-grid, .collection', // Adjust based on actual HTML
