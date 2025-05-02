@@ -21,7 +21,8 @@
         "*://*.bankswinesandspirits.com/*",
         "*://*.caskers.com/*",
         "*://*.woodencork.com/*",
-        "*://*.wine-searcher.com/*"
+        "*://*.wine-searcher.com/*",
+        "*://*.kentstreetcellars.com.au/*"
     ],
     "content_scripts": [
     {
@@ -39,7 +40,8 @@
         "*://*.bankswinesandspirits.com/*",
         "*://*.caskers.com/*",
         "*://*.woodencork.com/*",
-        "*://*.wine-searcher.com/*"
+        "*://*.wine-searcher.com/*",
+        "*://*.kentstreetcellars.com.au/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"

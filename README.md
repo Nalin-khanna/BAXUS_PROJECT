@@ -34,6 +34,7 @@ Click "Load unpacked" and select the `dist` folder of the project.
 - [bankswinesandspirits.com](http://bankswinesandspirits.com)
 - [caskers.com](http://caskers.com)
 - [woodencork.com](http://woodencork.com)
+- [kentstreetcellars.com.au](https://kentstreetcellars.com.au/)
 
 
 ### Youtube links - 
