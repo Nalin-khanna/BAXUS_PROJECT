@@ -13,7 +13,7 @@ interface ComparisonResult {
     price: number;
     imageUrl: string;
     attributes?: Record<string, string>;
-    iD?: string; // Ensure this matches the case used in background.ts
+    iD?: string; 
     nftAddress?: string;
   } | "no matches found";
   savings: number;

@@ -100,25 +100,40 @@ async function compareWithBaxusAPI(products: ProductData[]) {
 // Implement matching algorithm
 function findBestMatch(product: ProductData, possibleMatches: any[]) {
   const normalizedProductName = product.name.toLowerCase().trim().replace(/\s+/g, ' ');
-  
+
+  //  regex to match ml, cl, l, liter, litre (with decimals)
+  const productVolume = normalizedProductName.match(/(\d+(\.\d+)?)\s*(ml|cl|l|liter|litre)/i);
+
+  let normalizedProductVolume = null;
+  if (productVolume) {
+    const value = parseFloat(productVolume[1]);
+    const unit = productVolume[3].toLowerCase();
+    if (unit === 'cl') normalizedProductVolume = value * 10;
+    else if (unit === 'l' || unit === 'liter' || unit === 'litre') normalizedProductVolume = value * 1000;
+    else normalizedProductVolume = value;
+  }
+
   const match = possibleMatches.find(match => {
     const sourceName = (match._source.name || '').toLowerCase().trim().replace(/\s+/g, ' ');
     const attributesName = (match._source.attributes?.Name || '').toLowerCase().trim().replace(/\s+/g, ' ');
+
+    const baseProductName = normalizedProductName.replace(/\s+\d+(\.\d+)?\s*(ml|cl|l|liter|litre)\b/i, '').trim();
+    const baseSourceName = sourceName.replace(/\s+\d+(\.\d+)?\s*(ml|cl|l|liter|litre)\b/i, '').trim();
+    const baseAttributesName = attributesName.replace(/\s+\d+(\.\d+)?\s*(ml|cl|l|liter|litre)\b/i, '').trim();
+
+    // Updated regex for match volume
+    const matchVolume = match._source.attributes?.Size?.match(/(\d+(\.\d+)?)\s*(ml|cl|l|liter|litre)/i);
+
+    let normalizedMatchVolume = null;
+    if (matchVolume) {
+      const value = parseFloat(matchVolume[1]);
+      const unit = matchVolume[3].toLowerCase();
+      if (unit === 'cl') normalizedMatchVolume = value * 10;
+      else if (unit === 'l' || unit === 'liter' || unit === 'litre') normalizedMatchVolume = value * 1000;
+      else normalizedMatchVolume = value;
+    }
+
     
-    const baseProductName = normalizedProductName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
-    const baseSourceName = sourceName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
-    const baseAttributesName = attributesName.replace(/\s+\d+\s*ml\b|\s+\d+\s*cl\b/i, '').trim();
-    
-    const productVolume = normalizedProductName.match(/(\d+)\s*(ml|cl)/i);
-    const matchVolume = match._source.attributes?.Size?.match(/(\d+)\s*(ml|cl)/i);
-    
-    // Convert volumes to ml for comparison (if in cl)
-    const normalizedProductVolume = productVolume ?
-      (productVolume[2].toLowerCase() === 'cl' ? parseInt(productVolume[1]) * 10 : parseInt(productVolume[1])) : null;
-    const normalizedMatchVolume = matchVolume ?
-      (matchVolume[2].toLowerCase() === 'cl' ? parseInt(matchVolume[1]) * 10 : parseInt(matchVolume[1])) : null;
-    
-    // More flexible name matching
     const nameMatches =
       baseSourceName.includes(baseProductName) ||
       baseProductName.includes(baseSourceName) ||
@@ -132,10 +147,10 @@ function findBestMatch(product: ProductData, possibleMatches: any[]) {
     const volumesAreComparable = normalizedProductVolume !== null && normalizedMatchVolume !== null;
     const volumeMatches = volumesAreComparable
       ? (normalizedProductVolume === normalizedMatchVolume)
-      : false; 
-    
+      : false;
+
     return nameMatches && volumeMatches;
   });
-  
+
   return match || "no matches found";
 }
