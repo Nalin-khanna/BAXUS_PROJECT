@@ -92,9 +92,9 @@ export const siteConfigs: SiteConfig[] = [
     productSelector: '.product-card__details',
     nameSelector: '.product-card__title',
     priceSelector: '.product-card__price-price .money',
-    linkSelector: '.product-card__title a', // Adjust if product name is not a link
-    imageSelector: '.product-card__image img', // Adjust based on actual HTML
-    listingContainerSelector: '.product-grid, .collection', // Adjust based on actual HTML
+    linkSelector: '.product-card__title a', 
+    imageSelector: '.product-card__image img',
+    listingContainerSelector: '.product-grid, .collection', 
     listingUrlPatterns: [
       /bankswinesandspirits\.com\/collections\//,
       /bankswinesandspirits\.com\/products\//,
@@ -236,9 +236,9 @@ export const siteConfigs: SiteConfig[] = [
     productSelector: '.product-card__details',
     nameSelector: '.product-card__title',
     priceSelector: '.product-card__price .money',
-    linkSelector: '.product-card__title a', // Adjust if product name is not a link
-    imageSelector: '.product-card__image img', // Adjust based on actual HTML
-    listingContainerSelector: '.product-grid, .collection', // Adjust based on actual HTML
+    linkSelector: '.product-card__title a', 
+    imageSelector: '.product-card__image img',
+    listingContainerSelector: '.product-grid, .collection', 
     listingUrlPatterns: [
       /bankswinesandspirits\.com\/collections\//,
       /bankswinesandspirits\.com\/products\//,
@@ -307,9 +307,52 @@ export const siteConfigs: SiteConfig[] = [
     /kentstreetcellars\.com\.au\//
   ],
   additionalSelectors: {
-    volume: ".productitem--title a", // Volume is often in the title, e.g., "700ml"
+    volume: ".productitem--title a", // Volume is often in the title,
     description: ".productitem--description"
   }
+},
+
+{
+  name: "De Wine Spot",
+  domainMatch: "dewinespot.co",
+  productSelector: "product-card.card--product, .card.card--product",
+  nameSelector: ".card__title a",
+  priceSelector: ".price .money, .card__price .money, .card__price",
+  linkSelector: ".card__title a",
+  imageSelector: ".card__main-image",
+  listingContainerSelector: ".productgrid--items, .collection__products, .productgrid--container, .product-list, .product-grid",
+  listingUrlPatterns: [
+    /dewinespot\.co\/collections\//,
+    /dewinespot\.co\/products\//,
+    /dewinespot\.co\/search\?/,
+    /dewinespot\.co\//
+  ],
+  additionalSelectors: {
+    volume: ".card__title a", // Volume is often in the title
+    description: ".card__description, .product-card__description, .product-description"
+  }
+},
+{
+  name: "The Whisky Shop",
+  domainMatch: "whiskyshop.com",
+  productSelector: ".product.details.product-item-details",
+  nameSelector: ".product.name.product-item-name a.product-item-link",
+  priceSelector: ".price-box .price",
+  linkSelector: ".product.name.product-item-name a.product-item-link",
+  imageSelector: ".product-image-photo", 
+  listingContainerSelector: ".products.wrapper, .product-list, .product-grid, .collection__products",
+  listingUrlPatterns: [
+    /whiskyshop\.com\/blended-scotch-whisky/,
+    /whiskyshop\.com\/collections\//,
+    /whiskyshop\.com\/products\//,
+    /whiskyshop\.com\/search\?/,
+    /whiskyshop\.com\//
+  ],
+  additionalSelectors: {
+    volume: ".product.name.product-item-name a.product-item-link"
+  }
 }
+
+
 
 ];

@@ -22,7 +22,9 @@
         "*://*.caskers.com/*",
         "*://*.woodencork.com/*",
         "*://*.wine-searcher.com/*",
-        "*://*.kentstreetcellars.com.au/*"
+        "*://*.kentstreetcellars.com.au/*",
+        "*://*.dewinespot.co/*",
+        "*://*.whiskyshop.com/*"
     ],
     "content_scripts": [
     {
@@ -41,7 +43,9 @@
         "*://*.caskers.com/*",
         "*://*.woodencork.com/*",
         "*://*.wine-searcher.com/*",
-        "*://*.kentstreetcellars.com.au/*"
+        "*://*.kentstreetcellars.com.au/*",
+        "*://*.dewinespot.co/*",
+        "*://*.whiskyshop.com/*"
       ],
       "js": ["content-script.js"],
       "run_at": "document_idle"
